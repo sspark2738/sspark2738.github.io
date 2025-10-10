@@ -3,97 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WELCOME TO SMILECOOKIE</title>
-    <link rel="icon" href="favicon.jpg" type="image/jpg">    
+    <title>다국어 인사말 순환 표시기</title>
+    <link rel="icon" href="favicon.png" type="image/png">
     <style>
-        /* 페이지 기본 스타일 */
+        /* 페이지 전체 스타일 */
         body {
-            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
-            /* 밤하늘처럼 깊고 어두운 배경색 */
-            background-color: #0c0c1e;
+            margin: 0;
+            background-color: #121212; /* 더 깊은 어두운 배경색 */
+            font-family: 'Pretendard', sans-serif;
             color: white;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden; /* 스크롤바가 생기지 않도록 함 */
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden; /* 불필요한 스크롤 방지 */
         }
 
-        /* 모든 인사말을 담을 컨테이너 */
-        #greetings-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
+        .container {
+            text-align: center;
         }
 
-        /* 개별 인사말 텍스트 스타일 */
-        .greeting {
-            position: absolute; /* 절대 위치로 자유롭게 배치 */
-            white-space: nowrap; /* 줄바꿈 방지 */
-            user-select: none; /* 텍스트 선택 방지 */
-            
-            /* 다채로운 그라데이션을 모든 텍스트에 적용 */
-            background: linear-gradient(45deg, #ff7e5f, #feb47b, #86A8E7, #91EAE4, #7f7fd5);
+        /* 그라데이션 텍스트 스타일 */
+        .gradient-text {
+            background: linear-gradient(60deg, #3B82F6, #A855F7, #EC4899, #F59E0B, #bd6e00, #ff0000, #009632);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             color: transparent;
-
-            /* 부드럽게 떠다니는 애니메이션 효과 */
-            animation: float 20s ease-in-out infinite;
+            font-size: clamp(2.5rem, 12vw, 6rem); /* 반응형 폰트 크기 */
+            font-weight: 900;
+            min-height: 1.5em; /* 텍스트 변경 시 레이아웃 흔들림 방지 */
+            transition: opacity 0.7s ease-in-out; /* 부드러운 전환 효과 */
+            animation: gradient-animation 12s ease infinite;
         }
 
-        /* 떠다니는 효과를 위한 키프레임 애니메이션 */
-        @keyframes float {
-            0% { transform: translateY(0px) translateX(0px); }
-            25% { transform: translateY(-15px) translateX(10px); }
-            50% { transform: translateY(10px) translateX(-15px); }
-            75% { transform: translateY(-10px) translateX(20px); }
-            100% { transform: translateY(0px) translateX(0px); }
+        /* 그라데이션 배경 애니메이션 */
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 현재 언어 표시 스타일 */
+        .language-info {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            margin-top: 15px;
+            min-height: 1.2em; /* 높이 고정 */
+            transition: opacity 0.7s ease-in-out;
         }
     </style>
 </head>
 <body>
 
-    <div id="greetings-container"></div>
+    <div class="container">
+        <!-- 인사말이 표시될 공간 -->
+        <h1 id="greeting-text" class="gradient-text"></h1>
+        <!-- 현재 언어가 표시될 공간 -->
+        <p id="language-display" class="language-info"></p>
+    </div>
 
     <script>
-        const container = document.getElementById('greetings-container');
+        const greetingElement = document.getElementById('greeting-text');
+        const languageElement = document.getElementById('language-display');
 
-        // 최대한 많은 '안녕하세요'를 배열에 저장합니다.
+        // 인사말과 언어 정보를 담고 있는 배열
         const greetings = [
-            '안녕하세요', 'Hello', 'こんにちは', '你好', '¡Hola!', 'Bonjour', 'Guten Tag', 'Здравствуйте', 'مرحبا', 
-            'नमस्ते', 'Olá', 'Ciao', 'Hallo', 'Hej', 'Ahoj', 'Merhaba', 'Szia', 'สวัสดี', 'שלום', 'Γειά σας', 
-            'Cześć', 'Salut', 'Hei', 'Sveiki', 'Tere', 'Zdravo', 'Kamusta', 'Xin chào', 'Jambo', 'Përshëndetje',
-            'Sannu', 'Salam', 'Shwmae', 'Hodi', 'Demat', 'Saluton', 'Aloha', 'Ia Orana', 'Bula', 'Mālō e lelei',
-            'Talofa', 'Kia Ora', 'Bongu', 'Dia dhuit', 'Salama', 'Kaixo', 'Pershendetje', 'Ola', 'Sawubona',
-            'Selam', 'Nǐ hǎo', 'Sabaidee', 'Mingalaba', 'Hyālō', 'Vaṇakkam', 'Namaskāraṁ', 'S̄wạs̄dī',
-            'Bare՛v', 'Gamarjoba', 'Sälemetsiz be', 'Vitayu', 'Hallå', 'Čau', 'Moïen', 'Hyllo', 'Kumusta',
-
-            // 더 많은 언어 추가
-            'Hallå', 'Sveiki', 'Tere', 'Moikka', 'Hoi', 'Grüezi', 'S’w mae', 'Sziasztok', 'Bok', 'Alo',
-            'Ola', 'Pryvit', 'Konnichiwa', 'Annyeonghaseyo', 'Zdravstvuyte', 'Shalom', 'Marhaban', 'Namaste',
-            'Jambo', 'Sawubona', 'Olá', 'Ciao', 'Merhaba', 'S̄wạs̄dī', 'Xin chào', 'Kamusta', 'Selam',
-            'Salut', 'Hej', 'Hallo', 'Hei', 'Ahoj', 'Cześć', 'Szia', 'Tere', 'Sveiki', 'Labas', 'Zdravo'
+            { greeting: '안녕하세요!', language: '한국어' },
+            { greeting: 'Hello!', language: 'English' },
+            { greeting: 'こんにちは!', language: '日本語' },
+            { greeting: '¡Hola!', language: 'Español' },
+            { greeting: 'Bonjour!', language: 'Français' },
+            { greeting: 'Guten Tag!', language: 'Deutsch' },
+            { greeting: '你好!', language: '中文' },
+            { greeting: 'Здравствуйте!', language: 'Русский' },
+            { greeting: 'مرحبا!', language: 'العربية' },
+            { greeting: 'नमस्ते!', language: 'हिन्दी' }
         ];
+        let currentGreetingIndex = 0;
 
-        // 배열에 있는 모든 인사말을 화면에 뿌립니다.
-        greetings.forEach(text => {
-            const greetingElement = document.createElement('span');
-            greetingElement.className = 'greeting';
-            greetingElement.textContent = text;
+        // 다음 언어로 텍스트를 업데이트하는 함수
+        function updateGreeting() {
+            // 현재 텍스트를 부드럽게 사라지게 함
+            greetingElement.style.opacity = 0;
+            languageElement.style.opacity = 0;
 
-            // 각 텍스트의 스타일을 무작위로 설정합니다.
-            greetingElement.style.top = `${Math.random() * 95}%`; // Y 위치
-            greetingElement.style.left = `${Math.random() * 95}%`; // X 위치
-            greetingElement.style.fontSize = `${Math.random() * 3 + 0.8}rem`; // 글자 크기
-            greetingElement.style.opacity = Math.random() * 0.7 + 0.3; // 투명도
-            
-            // 애니메이션 시작 시간과 재생 시간을 무작위로 설정하여 자연스럽게 만듭니다.
-            greetingElement.style.animationDelay = `${Math.random() * 10}s`;
-            greetingElement.style.animationDuration = `${Math.random() * 15 + 15}s`;
+            // 0.7초 후 (사라지는 애니메이션이 끝난 후) 텍스트를 교체하고 나타나게 함
+            setTimeout(() => {
+                // 배열에서 현재 순서의 인사말 객체를 가져옴
+                const currentGreeting = greetings[currentGreetingIndex];
 
-            container.appendChild(greetingElement);
-        });
+                // 화면의 텍스트를 업데이트
+                greetingElement.textContent = currentGreeting.greeting;
+                languageElement.textContent = currentGreeting.language;
+
+                // 텍스트를 다시 보이게 함
+                greetingElement.style.opacity = 1;
+                //languageElement.style.opacity = 1;
+                
+                // 다음 순서를 위해 인덱스 업데이트 (배열 끝에 도달하면 처음으로 돌아감)
+                currentGreetingIndex = (currentGreetingIndex + 1) % greetings.length;
+            }, 700);
+        }
+
+        // 페이지 로드 시 즉시 첫 인사말을 표시
+        updateGreeting();
+
+        // 5초(5000ms)마다 updateGreeting 함수를 반복 실행
+        setInterval(updateGreeting, 5000);
     </script>
 
 </body>
 </html>
+

@@ -1,13 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>SSPARK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WELCOME TO SMILECOOKIE</title>
+    <link rel="icon" href="favicon.jpg" type="image/jpg">    
+    <style>
+        /* 페이지 기본 스타일 */
+        body {
+            margin: 0;
+            height: 100vh;
+            /* 밤하늘처럼 깊고 어두운 배경색 */
+            background-color: #0c0c1e;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden; /* 스크롤바가 생기지 않도록 함 */
+        }
 
-    <link rel="icon" href="favicon.jpg" type="image/jpg">
+        /* 모든 인사말을 담을 컨테이너 */
+        #greetings-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
 
+        /* 개별 인사말 텍스트 스타일 */
+        .greeting {
+            position: absolute; /* 절대 위치로 자유롭게 배치 */
+            white-space: nowrap; /* 줄바꿈 방지 */
+            user-select: none; /* 텍스트 선택 방지 */
+            
+            /* 다채로운 그라데이션을 모든 텍스트에 적용 */
+            background: linear-gradient(45deg, #ff7e5f, #feb47b, #86A8E7, #91EAE4, #7f7fd5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+
+            /* 부드럽게 떠다니는 애니메이션 효과 */
+            animation: float 20s ease-in-out infinite;
+        }
+
+        /* 떠다니는 효과를 위한 키프레임 애니메이션 */
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-15px) translateX(10px); }
+            50% { transform: translateY(10px) translateX(-15px); }
+            75% { transform: translateY(-10px) translateX(20px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to SSPARK's Site</h1>
+
+    <div id="greetings-container"></div>
+
+    <script>
+        const container = document.getElementById('greetings-container');
+
+        // 최대한 많은 '안녕하세요'를 배열에 저장합니다.
+        const greetings = [
+            '안녕하세요', 'Hello', 'こんにちは', '你好', '¡Hola!', 'Bonjour', 'Guten Tag', 'Здравствуйте', 'مرحبا', 
+            'नमस्ते', 'Olá', 'Ciao', 'Hallo', 'Hej', 'Ahoj', 'Merhaba', 'Szia', 'สวัสดี', 'שלום', 'Γειά σας', 
+            'Cześć', 'Salut', 'Hei', 'Sveiki', 'Tere', 'Zdravo', 'Kamusta', 'Xin chào', 'Jambo', 'Përshëndetje',
+            'Sannu', 'Salam', 'Shwmae', 'Hodi', 'Demat', 'Saluton', 'Aloha', 'Ia Orana', 'Bula', 'Mālō e lelei',
+            'Talofa', 'Kia Ora', 'Bongu', 'Dia dhuit', 'Salama', 'Kaixo', 'Pershendetje', 'Ola', 'Sawubona',
+            'Selam', 'Nǐ hǎo', 'Sabaidee', 'Mingalaba', 'Hyālō', 'Vaṇakkam', 'Namaskāraṁ', 'S̄wạs̄dī',
+            'Bare՛v', 'Gamarjoba', 'Sälemetsiz be', 'Vitayu', 'Hallå', 'Čau', 'Moïen', 'Hyllo', 'Kumusta',
+
+            // 더 많은 언어 추가
+            'Hallå', 'Sveiki', 'Tere', 'Moikka', 'Hoi', 'Grüezi', 'S’w mae', 'Sziasztok', 'Bok', 'Alo',
+            'Ola', 'Pryvit', 'Konnichiwa', 'Annyeonghaseyo', 'Zdravstvuyte', 'Shalom', 'Marhaban', 'Namaste',
+            'Jambo', 'Sawubona', 'Olá', 'Ciao', 'Merhaba', 'S̄wạs̄dī', 'Xin chào', 'Kamusta', 'Selam',
+            'Salut', 'Hej', 'Hallo', 'Hei', 'Ahoj', 'Cześć', 'Szia', 'Tere', 'Sveiki', 'Labas', 'Zdravo'
+        ];
+
+        // 배열에 있는 모든 인사말을 화면에 뿌립니다.
+        greetings.forEach(text => {
+            const greetingElement = document.createElement('span');
+            greetingElement.className = 'greeting';
+            greetingElement.textContent = text;
+
+            // 각 텍스트의 스타일을 무작위로 설정합니다.
+            greetingElement.style.top = `${Math.random() * 95}%`; // Y 위치
+            greetingElement.style.left = `${Math.random() * 95}%`; // X 위치
+            greetingElement.style.fontSize = `${Math.random() * 3 + 0.8}rem`; // 글자 크기
+            greetingElement.style.opacity = Math.random() * 0.7 + 0.3; // 투명도
+            
+            // 애니메이션 시작 시간과 재생 시간을 무작위로 설정하여 자연스럽게 만듭니다.
+            greetingElement.style.animationDelay = `${Math.random() * 10}s`;
+            greetingElement.style.animationDuration = `${Math.random() * 15 + 15}s`;
+
+            container.appendChild(greetingElement);
+        });
+    </script>
+
 </body>
 </html>

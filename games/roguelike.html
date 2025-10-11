@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>메트로바니아 플랫폼 게임 (Space 점프 / 마우스 공격)</title>
+<style>
+  html,body{height:100%;margin:0;background:#1b1f2a;display:flex;align-items:center;justify-content:center}
+  #wrapper{width:960px;height:540px;background:#0b0d12;position:relative;border:8px solid #222;box-shadow:0 10px 40px rgba(0,0,0,0.7)}
+  canvas{display:block}
+  #hud{position:absolute;left:12px;top:8px;color:#fff;font-family:monospace}
+  #controls{position:absolute;right:12px;top:8px;color:#ddd;font-family:monospace;font-size:13px}
+  button{margin-left:8px}
+</style>
+</head>
+<body>
+<div id="wrapper">
+  <canvas id="game" width="960" height="540"></canvas>
+  <div id="hud">HP: <span id="hp">10</span> &nbsp; Region: <span id="region">0</span></div>
+  <div id="controls">←A →D : Move  &nbsp; Space : Jump &nbsp; MouseLeft : Attack <button id="reset">Reset</button></div>
+</div>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const hpEl = document.getElementById('hp');
+const regionEl = document.getElementById('region');
+const resetBtn = document.getElementById('reset');
+
+const TILE = 32;
+const MAP_W = 40;
+const MAP_H = 24;
+
+let regionId = 0;
+let map, player, enemies, doors;
+
+const keys = {};
+window.addEventListener('keydown', e=>{ keys[e.key.toLowerCase()] = true; });
+window.addEventListener('keyup', e=>{ keys[e.key.toLowerCase()] = false; });
+let mouseDown = false;
+window.addEventListener('mousedown', e=>{ if(e.button===0) mouseDown = true; });
+window.addEventListener('mouseup', e=>{ if(e.button===0) mouseDown = false; });
+
+resetBtn.addEventListener('click', ()=> initGame());
+
+function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+
+function createEmptyMap(w,h){ const a=[]; for(let y=0;y<h;y++){ a[y]=[]; for(let x=0;x<w;x++) a[y][x]=0; } return a; }
+
+function generateRegion(id){
+  const m=createEmptyMap(MAP_W,MAP_H);
+  for(let x=0;x<MAP_W;x++) m[MAP_H-1][x]=1;
+  for(let y=0;y<MAP_H;y++){ m[y][0]=1; m[y][MAP_W-1]=1; }
+  const platCount=8;
+  for(let i=0;i<platCount;i++){
+    const pw=randInt(3,10),px=randInt(2,MAP_W-2-pw),py=randInt(3,MAP_H-6);
+    for(let x=px;x<px+pw;x++) m[py][x]=1;
+  }
+  doors=[]; const dnum=randInt(1,3);
+  for(let i=0;i<dnum;i++){
+    const side=(i%2===0)?'left':'right'; const y=randInt(3,MAP_H-4); const x=(side==='left')?1:MAP_W-2;
+    m[y][x]=2; doors.push({x,y});
+  }
+  return m;
+}
+
+function findFloor(tx){ for(let y=0;y<MAP_H;y++){ if(map[y][tx]===1) return y; } return MAP_H-2; }
+
+function initEntities(){
+  player={x:3*TILE,y:(MAP_H-3)*TILE,vx:0,vy:0,w:26,h:30,onGround:false,hp:10,facing:1,atkCD:0};
+  enemies=[];
+  for(let i=0;i<5;i++){
+    const ex=randInt(6,MAP_W-6); const ey=findFloor(ex)-1;
+    enemies.push({x:ex*TILE,y:ey*TILE,w:26,h:30,vx:(Math.random()<0.5?1:-1)*0.6,hp:3});
+  }
+}
+
+function tileAt(tx,ty){ if(tx<0||tx>=MAP_W||ty<0||ty>=MAP_H)return 1; return map[ty][tx]; }
+
+function rectTileCollision(ax,ay,aw,ah){
+  const left=Math.floor(ax/TILE), right=Math.floor((ax+aw-1)/TILE);
+  const top=Math.floor(ay/TILE), bottom=Math.floor((ay+ah-1)/TILE);
+  let c=[];
+  for(let ty=top;ty<=bottom;ty++)for(let tx=left;tx<=right;tx++){ const t=tileAt(tx,ty); if(t===1||t===2)c.push({tx,ty,t}); }
+  return c;
+}
+
+function initGame(){ map=generateRegion(regionId); initEntities(); hpEl.textContent=player.hp; regionEl.textContent=regionId; }
+
+function aabb(a,b){return !(a.x+a.w<b.x||a.x>b.x+b.w||a.y+a.h<b.y||a.y>b.y+b.h);}
+
+function update(dt){
+  let move=0;
+  if(keys['arrowleft']||keys['a']){move=-1;player.facing=-1;}
+  if(keys['arrowright']||keys['d']){move=1;player.facing=1;}
+  const spd=180;
+  player.vx=move*spd;
+
+  const jump=keys[' '] || keys['space'];
+  if(jump && player.onGround){ player.vy=-460; player.onGround=false; }
+
+  const GRAV=1300;
+  player.vy+=GRAV*dt;
+
+  let nx=player.x+player.vx*dt; let ny=player.y+player.vy*dt;
+
+  // X축 충돌 처리
+  let hc=rectTileCollision(nx,player.y,player.w,player.h);
+  if(hc.length>0){
+    if(player.vx>0) nx=Math.floor((player.x+player.w)/TILE)*TILE-player.w-0.01;
+    else if(player.vx<0) nx=(Math.floor(player.x/TILE)+1)*TILE+0.01;
+    player.vx=0;
+  }
+
+  // Y축 충돌 처리
+  let vc=rectTileCollision(nx,ny,player.w,player.h);
+  player.onGround=false;
+  if(vc.length>0){
+    for(const c of vc){
+      const ty=c.ty*TILE;
+      if(player.vy>0){ ny=ty-player.h; player.vy=0; player.onGround=true; break; }
+      else if(player.vy<0){ ny=ty+TILE; player.vy=0; }
+    }
+  }
+
+  player.x=nx; player.y=ny;
+
+  const cx=Math.floor((player.x+player.w/2)/TILE);
+  const cy=Math.floor((player.y+player.h/2)/TILE);
+  if(tileAt(cx,cy)===2){ regionId++; map=generateRegion(regionId); initEntities(); }
+
+  if(mouseDown && player.atkCD<=0){
+    player.atkCD=0.4;
+    for(const e of enemies){ if(aabb(player,e)){ e.hp-=1; if(e.hp<=0)e.x=-999; } }
+  }
+  if(player.atkCD>0) player.atkCD-=dt;
+
+  for(const e of enemies){
+    if(e.hp<=0)continue;
+    e.y+=200*dt;
+    e.x+=e.vx*dt*60;
+    const tx=Math.floor((e.x+e.w/2)/TILE);
+    if(tileAt(tx+Math.sign(e.vx),Math.floor((e.y+e.h)/TILE))===0) e.vx*=-1;
+    if(aabb(player,e)){ player.hp-=1; hpEl.textContent=player.hp; if(player.hp<=0){alert('죽었습니다.');regionId=0;initGame();} }
+  }
+}
+
+function render(){
+  const camX=clamp(player.x+player.w/2-W/2,0,MAP_W*TILE-W);
+  const camY=clamp(player.y+player.h/2-H/2,0,MAP_H*TILE-H);
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#0b1220'; ctx.fillRect(0,0,W,H);
+
+  for(let y=0;y<MAP_H;y++)for(let x=0;x<MAP_W;x++){
+    const t=map[y][x]; const sx=x*TILE-camX,sy=y*TILE-camY;
+    if(t===1){ctx.fillStyle='#666';ctx.fillRect(sx,sy,TILE,TILE);} else if(t===2){ctx.fillStyle='#fc6';ctx.fillRect(sx,sy,TILE,TILE);} }
+
+  for(const e of enemies){ if(e.hp<=0)continue; ctx.fillStyle='#e86d6d'; ctx.fillRect(e.x-camX,e.y-camY,e.w,e.h); }
+  ctx.fillStyle='#66ccff'; ctx.fillRect(player.x-camX,player.y-camY,player.w,player.h);
+}
+
+let last=performance.now();
+function loop(t){ const dt=Math.min(0.05,(t-last)/1000); update(dt); render(); last=t; requestAnimationFrame(loop); }
+initGame(); requestAnimationFrame(loop);
+</script>
+</body>
+</html>

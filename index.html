@@ -13,16 +13,65 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #121212; /* 더 깊은 어두운 배경색 */
+            background-color: #0c0a15; /* 오로라와 어울리는 더 어두운 보랏빛 배경 */
             font-family: 'Pretendard', sans-serif;
             color: white;
             padding: 20px;
             box-sizing: border-box;
-            overflow: hidden; /* 불필요한 스크롤 방지 */
+            overflow: hidden;
         }
+
+        /* --- ✨ [추가] 오로라 배경 스타일 --- */
+        .aurora {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0; /* 컨텐츠 뒤에 위치 */
+            mix-blend-mode: screen; /* 색상이 더 자연스럽게 섞이도록 함 */
+            animation: aurora-flow 20s infinite alternate;
+        }
+
+        .aurora-1 {
+            background: radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.3), transparent 60%);
+            animation-duration: 15s;
+        }
+
+        .aurora-2 {
+            background: radial-gradient(circle at 80% 10%, rgba(168, 85, 247, 0.3), transparent 60%);
+            animation-duration: 20s;
+            animation-delay: -5s; /* 애니메이션 시작 시간 조절 */
+        }
+
+        .aurora-3 {
+            background: radial-gradient(circle at 50% 90%, rgba(236, 72, 153, 0.25), transparent 60%);
+            animation-duration: 25s;
+            animation-delay: -10s;
+        }
+
+        /* --- ✨ [추가] 오로라 애니메이션 --- */
+        @keyframes aurora-flow {
+            0% {
+                transform: scale(1.2) rotate(0deg) translateX(0vw) translateY(0vh);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.8) rotate(5deg) translateX(10vw) translateY(-10vh);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.2) rotate(-5deg) translateX(-10vw) translateY(5vh);
+                opacity: 0.3;
+            }
+        }
+        /* --- 오로라 스타일 끝 --- */
+
 
         .container {
             text-align: center;
+            position: relative; /* ✨ [수정] 컨텐츠가 배경 위에 오도록 설정 */
+            z-index: 1;         /* ✨ [수정] 컨텐츠가 배경 위에 오도록 설정 */
         }
 
         /* 그라데이션 텍스트 스타일 */
@@ -59,16 +108,17 @@
 </head>
 <body>
 
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+
     <div class="container">
-        <!-- 인사말이 표시될 공간 -->
         <h1 id="greeting-text" class="gradient-text"></h1>
-        <!-- 현재 언어가 표시될 공간 -->
         <p id="language-display" class="language-info"></p>
 
         <p style="color:rgb(120, 95, 50);font-weight: bold;">We are renewing the site</p>
         <p style="color:rgb(120, 95, 50)">Contact : contact@smilecookie.com</p>
         <p style="color:rgb(120, 95, 50)">©2025 SMILECOOKIE INC. All Rights Reserved.</p>
-
     </div>
 
     <script>
@@ -107,7 +157,7 @@
 
                 // 텍스트를 다시 보이게 함
                 greetingElement.style.opacity = 1;
-                //languageElement.style.opacity = 1;
+                languageElement.style.opacity = 1; // 이 부분 주석을 해제해야 언어도 같이 나타납니다.
                 
                 // 다음 순서를 위해 인덱스 업데이트 (배열 끝에 도달하면 처음으로 돌아감)
                 currentGreetingIndex = (currentGreetingIndex + 1) % greetings.length;
@@ -122,4 +172,3 @@
     </script>
 </body>
 </html>
-

@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>다이노 러너 게임</title>
+<style>
+  html,body{height:100%;margin:0;background:#1b1f2a;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+  #wrapper{width:800px;height:500px;background:#0b0d12;position:relative;border:8px solid #222;box-shadow:0 10px 40px rgba(0,0,0,0.7);display:flex;flex-direction:column;overflow:hidden}
+  #header{color:#fff;padding:15px;text-align:center;border-bottom:2px solid #333;display:flex;justify-content:space-between;align-items:center}
+  #header h1{margin:0;font-size:24px;background:linear-gradient(90deg,#f59e0b,#ef4444,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  #score-board{display:flex;gap:20px;font-size:16px}
+  #score-board span{color:#f59e0b;font-weight:bold}
+  #high-score{color:#ef4444}
+  #speed{color:#ec4899}
+  canvas{display:block;flex:1;cursor:none}
+  #controls{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);color:#ddd;font-family:monospace;font-size:13px;text-align:center}
+  #game-over{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(11,13,18,0.95);padding:30px;border-radius:10px;border:2px solid #f59e0b;text-align:center;display:none;z-index:10}
+  #game-over h2{color:#f59e0b;margin:0 0 15px 0;font-size:32px}
+  #game-over p{color:#fff;margin:10px 0;font-size:18px}
+  #game-over button{background:linear-gradient(135deg,#f59e0b,#ef4444);border:none;padding:12px 30px;font-size:16px;color:#0b0d12;font-weight:bold;border-radius:5px;cursor:pointer;margin-top:15px;transition:transform 0.2s}
+  #game-over button:hover{transform:scale(1.05)}
+  #game-over button:active{transform:scale(0.95)}
+  #instructions{position:absolute;top:15px;right:15px;color:#888;font-size:11px;text-align:right;line-height:1.6}
+  #start-screen{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(11,13,18,0.95);padding:30px;border-radius:10px;border:2px solid #f59e0b;text-align:center;z-index:10}
+  #start-screen h2{color:#f59e0b;margin:0 0 15px 0;font-size:32px}
+  #start-screen p{color:#fff;margin:10px 0;font-size:16px}
+  #start-screen button{background:linear-gradient(135deg,#f59e0b,#ef4444);border:none;padding:12px 30px;font-size:16px;color:#0b0d12;font-weight:bold;border-radius:5px;cursor:pointer;margin-top:15px;transition:transform 0.2s}
+  #start-screen button:hover{transform:scale(1.05)}
+</style>
+</head>
+<body>
+<div id="wrapper">
+  <div id="header">
+    <h1>🦖 다이노 러너</h1>
+    <div id="score-board">
+      <div>거리: <span id="distance">0</span>m</div>
+      <div>최고: <span id="high-score">0</span>m</div>
+      <div>속도: <span id="speed">1</span>x</div>
+    </div>
+  </div>
+  <canvas id="game" width="784" height="400"></canvas>
+  <div id="instructions">스페이스바 또는 ↑ : 점프</div>
+  <div id="controls">자동으로 달립니다!</div>
+  <div id="start-screen">
+    <h2>🦖 다이노 러너</h2>
+    <p>스페이스바 또는 위 화살표로 점프하세요!</p>
+    <p>장애물을 피해 최대한 멀리 달리세요!</p>
+    <button id="start-btn">시작하기</button>
+  </div>
+  <div id="game-over">
+    <h2>게임 오버!</h2>
+    <p>달린 거리: <span id="final-distance">0</span>m</p>
+    <p id="new-record" style="color:#f59e0b;display:none">🎉 새로운 최고 기록!</p>
+    <button id="restart-btn">다시 시작</button>
+  </div>
+</div>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const distanceEl = document.getElementById('distance');
+const highScoreEl = document.getElementById('high-score');
+const speedEl = document.getElementById('speed');
+const finalDistanceEl = document.getElementById('final-distance');
+const gameOverEl = document.getElementById('game-over');
+const startScreenEl = document.getElementById('start-screen');
+const restartBtn = document.getElementById('restart-btn');
+const startBtn = document.getElementById('start-btn');
+const newRecordEl = document.getElementById('new-record');
+
+const GROUND_Y = H - 80;
+const GRAVITY = 1200;
+const JUMP_FORCE = -500;
+const INITIAL_SPEED = 200;
+const SPEED_INCREASE = 0.5;
+
+let dino = {
+  x: 100,
+  y: GROUND_Y,
+  width: 50,
+  height: 60,
+  vy: 0,
+  onGround: true,
+  animFrame: 0
+};
+
+let obstacles = [];
+let clouds = [];
+let groundOffset = 0;
+let distance = 0;
+let highScore = localStorage.getItem('dinoHighScore') || 0;
+let gameSpeed = INITIAL_SPEED;
+let gameRunning = false;
+let gameStarted = false;
+let lastObstacleTime = 0;
+let lastCloudTime = 0;
+let lastTime = performance.now();
+
+highScoreEl.textContent = highScore;
+
+const keys = {};
+window.addEventListener('keydown', e => {
+  const key = e.key.toLowerCase();
+  keys[key] = true;
+  
+  if ((key === ' ' || key === 'arrowup' || key === 'w') && gameRunning && dino.onGround) {
+    dino.vy = JUMP_FORCE;
+    dino.onGround = false;
+  }
+  
+  if (key === ' ' && !gameStarted) {
+    startGame();
+  }
+});
+
+window.addEventListener('keyup', e => {
+  keys[e.key.toLowerCase()] = false;
+});
+
+startBtn.addEventListener('click', startGame);
+restartBtn.addEventListener('click', () => {
+  initGame();
+  gameOverEl.style.display = 'none';
+});
+
+function startGame() {
+  if (!gameStarted) {
+    gameStarted = true;
+    gameRunning = true;
+    startScreenEl.style.display = 'none';
+    lastTime = performance.now();
+    gameLoop();
+  }
+}
+
+function initGame() {
+  dino = {
+    x: 100,
+    y: GROUND_Y,
+    width: 50,
+    height: 60,
+    vy: 0,
+    onGround: true,
+    animFrame: 0
+  };
+  obstacles = [];
+  clouds = [];
+  groundOffset = 0;
+  distance = 0;
+  gameSpeed = INITIAL_SPEED;
+  gameRunning = false;
+  gameStarted = false;
+  lastObstacleTime = 0;
+  lastCloudTime = 0;
+  distanceEl.textContent = distance;
+  speedEl.textContent = (gameSpeed / INITIAL_SPEED).toFixed(1);
+  startScreenEl.style.display = 'block';
+}
+
+function spawnObstacle() {
+  const types = ['cactus', 'bird'];
+  const type = Math.random() < 0.7 ? 'cactus' : 'bird';
+  
+  if (type === 'cactus') {
+    obstacles.push({
+      x: W,
+      y: GROUND_Y - 40,
+      width: 30,
+      height: 40,
+      type: 'cactus'
+    });
+  } else {
+    obstacles.push({
+      x: W,
+      y: GROUND_Y - 80 + Math.random() * 40,
+      width: 40,
+      height: 30,
+      type: 'bird'
+    });
+  }
+}
+
+function spawnCloud() {
+  clouds.push({
+    x: W,
+    y: 50 + Math.random() * 100,
+    width: 60 + Math.random() * 40,
+    height: 30 + Math.random() * 20,
+    speed: 30 + Math.random() * 20
+  });
+}
+
+function update(dt) {
+  if (!gameRunning) return;
+  
+  // 거리 및 속도 업데이트
+  distance += (gameSpeed * dt) / 10;
+  gameSpeed += SPEED_INCREASE;
+  distanceEl.textContent = Math.floor(distance);
+  speedEl.textContent = (gameSpeed / INITIAL_SPEED).toFixed(1);
+  
+  // 다이노 물리
+  dino.vy += GRAVITY * dt;
+  dino.y += dino.vy * dt;
+  
+  if (dino.y >= GROUND_Y) {
+    dino.y = GROUND_Y;
+    dino.vy = 0;
+    dino.onGround = true;
+  }
+  
+  // 다이노 애니메이션
+  if (dino.onGround) {
+    dino.animFrame += dt * 10;
+  }
+  
+  // 장애물 생성
+  const obstacleInterval = Math.max(1000, 2000 - (gameSpeed - INITIAL_SPEED) / 10);
+  if (performance.now() - lastObstacleTime > obstacleInterval) {
+    spawnObstacle();
+    lastObstacleTime = performance.now();
+  }
+  
+  // 구름 생성
+  if (performance.now() - lastCloudTime > 2000) {
+    spawnCloud();
+    lastCloudTime = performance.now();
+  }
+  
+  // 장애물 업데이트
+  for (let i = obstacles.length - 1; i >= 0; i--) {
+    obstacles[i].x -= gameSpeed * dt;
+    if (obstacles[i].x + obstacles[i].width < 0) {
+      obstacles.splice(i, 1);
+    } else {
+      // 충돌 체크
+      if (checkCollision(dino, obstacles[i])) {
+        gameOver();
+        return;
+      }
+    }
+  }
+  
+  // 구름 업데이트
+  for (let i = clouds.length - 1; i >= 0; i--) {
+    clouds[i].x -= clouds[i].speed * dt;
+    if (clouds[i].x + clouds[i].width < 0) {
+      clouds.splice(i, 1);
+    }
+  }
+  
+  // 지면 스크롤
+  groundOffset -= gameSpeed * dt;
+  if (groundOffset <= -50) {
+    groundOffset = 0;
+  }
+}
+
+function checkCollision(rect1, rect2) {
+  return rect1.x < rect2.x + rect2.width &&
+         rect1.x + rect1.width > rect2.x &&
+         rect1.y < rect2.y + rect2.height &&
+         rect1.y + rect1.height > rect2.y;
+}
+
+function gameOver() {
+  gameRunning = false;
+  finalDistanceEl.textContent = Math.floor(distance);
+  
+  if (distance > highScore) {
+    highScore = distance;
+    localStorage.setItem('dinoHighScore', highScore);
+    highScoreEl.textContent = Math.floor(highScore);
+    newRecordEl.style.display = 'block';
+  } else {
+    newRecordEl.style.display = 'none';
+  }
+  
+  gameOverEl.style.display = 'block';
+}
+
+function render() {
+  // 배경
+  const gradient = ctx.createLinearGradient(0, 0, 0, H);
+  gradient.addColorStop(0, '#1a1a2e');
+  gradient.addColorStop(1, '#0b0d12');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, W, H);
+  
+  // 구름
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+  for (const cloud of clouds) {
+    ctx.beginPath();
+    ctx.arc(cloud.x, cloud.y, cloud.width / 3, 0, Math.PI * 2);
+    ctx.arc(cloud.x + cloud.width / 3, cloud.y, cloud.width / 2.5, 0, Math.PI * 2);
+    ctx.arc(cloud.x + cloud.width / 1.5, cloud.y, cloud.width / 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  // 지면
+  ctx.fillStyle = '#333';
+  ctx.fillRect(0, GROUND_Y + 20, W, H - GROUND_Y - 20);
+  
+  // 지면 패턴
+  ctx.strokeStyle = '#444';
+  ctx.lineWidth = 2;
+  for (let x = groundOffset; x < W; x += 50) {
+    ctx.beginPath();
+    ctx.moveTo(x, GROUND_Y + 20);
+    ctx.lineTo(x, H);
+    ctx.stroke();
+  }
+  
+  // 장애물
+  for (const obstacle of obstacles) {
+    if (obstacle.type === 'cactus') {
+      // 선인장
+      ctx.fillStyle = '#22c55e';
+      ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+      // 선인장 가시
+      ctx.fillRect(obstacle.x - 5, obstacle.y + 10, 8, 15);
+      ctx.fillRect(obstacle.x + obstacle.width - 3, obstacle.y + 15, 8, 15);
+    } else {
+      // 새
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath();
+      ctx.ellipse(obstacle.x + obstacle.width / 2, obstacle.y + obstacle.height / 2, 
+                  obstacle.width / 2, obstacle.height / 2, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // 날개
+      ctx.fillStyle = '#dc2626';
+      ctx.beginPath();
+      ctx.ellipse(obstacle.x + obstacle.width / 3, obstacle.y + obstacle.height / 2, 
+                  obstacle.width / 3, obstacle.height / 2, -0.3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  
+  // 다이노
+  const dinoGradient = ctx.createLinearGradient(dino.x, dino.y, dino.x + dino.width, dino.y + dino.height);
+  dinoGradient.addColorStop(0, '#f59e0b');
+  dinoGradient.addColorStop(1, '#ef4444');
+  ctx.fillStyle = dinoGradient;
+  
+  // 다이노 몸체
+  ctx.fillRect(dino.x + 10, dino.y + 20, dino.width - 20, dino.height - 20);
+  
+  // 다이노 머리
+  ctx.beginPath();
+  ctx.arc(dino.x + dino.width / 2, dino.y + 15, 15, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // 다이노 눈
+  ctx.fillStyle = '#0b0d12';
+  ctx.beginPath();
+  ctx.arc(dino.x + dino.width / 2 + 5, dino.y + 12, 3, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // 다이노 다리 (달릴 때 애니메이션)
+  if (dino.onGround) {
+    const legOffset = Math.sin(dino.animFrame) * 5;
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillRect(dino.x + 15, dino.y + dino.height - 10, 8, 10 + legOffset);
+    ctx.fillRect(dino.x + dino.width - 23, dino.y + dino.height - 10, 8, 10 - legOffset);
+  } else {
+    // 점프 중 다리
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillRect(dino.x + 15, dino.y + dino.height - 10, 8, 10);
+    ctx.fillRect(dino.x + dino.width - 23, dino.y + dino.height - 10, 8, 10);
+  }
+  
+  // 다이노 꼬리
+  ctx.fillStyle = '#ef4444';
+  ctx.beginPath();
+  ctx.moveTo(dino.x, dino.y + 30);
+  ctx.lineTo(dino.x - 10, dino.y + 40);
+  ctx.lineTo(dino.x, dino.y + 50);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function gameLoop() {
+  const now = performance.now();
+  const dt = Math.min(0.05, (now - lastTime) / 1000);
+  lastTime = now;
+  
+  update(dt);
+  render();
+  
+  if (gameRunning || !gameStarted) {
+    requestAnimationFrame(gameLoop);
+  }
+}
+
+initGame();
+gameLoop();
+</script>
+</body>
+</html>

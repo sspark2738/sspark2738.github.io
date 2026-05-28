@@ -381,6 +381,7 @@ function render() {
 }
 
 function gameLoop() {
+  //실질적은 게임루프를 돌린다.
   const now = performance.now();
   const dt = Math.min(0.05, (now - lastTime) / 1000);
   lastTime = now;

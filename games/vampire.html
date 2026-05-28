@@ -144,23 +144,36 @@ let spawnTimer = 0;
 
 const EDEFS = [
   { id:'zombie', r:12, hp:30, spd:55, xp:3, color:'#55aa55', score:1,
-    dmg:8, draw(e){ drawEnemy(e,'#55aa55','#33ff33'); } },
+    dmg:8, draw(e){ drawEnemy(e,'#55aa55','#33ff33'); } }, // 0
   { id:'bat',    r:9,  hp:15, spd:110, xp:2, color:'#8855aa', score:1,
-    dmg:5, draw(e){ drawEnemy(e,'#8855aa','#bb66ff'); } },
+    dmg:5, draw(e){ drawEnemy(e,'#8855aa','#bb66ff'); } }, // 1
+  { id:'slime',  r:10, hp:20, spd:40, xp:2, color:'#33cc88', score:1,
+    dmg:4, draw(e){ drawEnemy(e,'#33cc88','#55ffa5'); } }, // 2
+  { id:'skeleton',r:12, hp:45, spd:65, xp:4, color:'#dddddd', score:2,
+    dmg:10, draw(e){ drawEnemy(e,'#dddddd','#ffffff'); } }, // 3
   { id:'knight', r:16, hp:120, spd:40, xp:8, color:'#aa5533', score:3,
-    dmg:15, draw(e){ drawEnemy(e,'#aa5533','#ff8844'); } },
+    dmg:15, draw(e){ drawEnemy(e,'#aa5533','#ff8844'); } }, // 4
   { id:'ghost',  r:13, hp:50,  spd:75, xp:5, color:'#aaaacc', score:2,
-    dmg:10, draw(e){ drawEnemy(e,'#aaaacc','#ddddff'); } },
+    dmg:10, draw(e){ drawEnemy(e,'#aaaacc','#ddddff'); } }, // 5
+  { id:'orc',    r:18, hp:200, spd:35, xp:12, color:'#22aa22', score:4,
+    dmg:18, draw(e){ drawEnemy(e,'#22aa22','#44cc44'); } }, // 6
+  { id:'necromancer', r:14, hp:150, spd:85, xp:15, color:'#330066', score:5,
+    dmg:20, draw(e){ drawEnemy(e,'#330066','#6622aa'); } }, // 7
   { id:'demon',  r:20, hp:400, spd:30, xp:25, color:'#cc2222', score:8,
-    dmg:25, draw(e){ drawEnemy(e,'#cc2222','#ff4444'); } },
+    dmg:25, draw(e){ drawEnemy(e,'#cc2222','#ff4444'); } }, // 8
+  { id:'dragon', r:35, hp:1500, spd:25, xp:100, color:'#ffaa00', score:20,
+    dmg:40, draw(e){ drawEnemy(e,'#ffaa00','#ffcc55'); } }, // 9
 ];
 
 function getSpawnPool() {
   const t = elapsed;
-  if(t < 30)  return [EDEFS[0],EDEFS[1]];
-  if(t < 90)  return [EDEFS[0],EDEFS[1],EDEFS[2]];
-  if(t < 180) return [EDEFS[0],EDEFS[1],EDEFS[2],EDEFS[3]];
-  return EDEFS;
+  if(t < 30)  return [EDEFS[0],EDEFS[1],EDEFS[2]];
+  if(t < 90)  return [EDEFS[0],EDEFS[1],EDEFS[2],EDEFS[3]];
+  if(t < 150) return [EDEFS[0],EDEFS[1],EDEFS[3],EDEFS[4]];
+  if(t < 210) return [EDEFS[3],EDEFS[4],EDEFS[5],EDEFS[6]];
+  if(t < 300) return [EDEFS[4],EDEFS[5],EDEFS[6],EDEFS[7]];
+  if(t < 420) return [EDEFS[6],EDEFS[7],EDEFS[8]];
+  return [EDEFS[7],EDEFS[8],EDEFS[9]];
 }
 
 // ── level up choices ───────────────────────────────────────────

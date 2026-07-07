@@ -656,6 +656,10 @@ document.addEventListener('DOMContentLoaded', () => {
           feedbackMessage.textContent = `${successPrefix}, ${name}! ${successSuffix} 🍪`;
         } else if (currentLang === 'pt') {
           feedbackMessage.textContent = `${successPrefix}, ${name}! ${successSuffix} 🍪`;
+        } else if (currentLang === 'de') {
+          feedbackMessage.textContent = `${successPrefix}, ${name}! ${successSuffix} 🍪`;
+        } else if (currentLang === 'it') {
+          feedbackMessage.textContent = `${successPrefix}, ${name}! ${successSuffix} 🍪`;
         }
 
         feedbackMessage.className = 'form-message success';

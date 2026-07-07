@@ -1,174 +1,418 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMILECOOKIE OFFICIAL SITE</title>
-    <link rel="icon" href="favicon.png" type="image/png">
-    <style>
-        /* 페이지 전체 스타일 */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #0c0a15; /* 오로라와 어울리는 더 어두운 보랏빛 배경 */
-            font-family: 'Pretendard', sans-serif;
-            color: white;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>smilecookie | 사람이 즐거운 게임을 만드는 게임 스튜디오</title>
 
-        /* --- ✨ [추가] 오로라 배경 스타일 --- */
-        .aurora {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0; /* 컨텐츠 뒤에 위치 */
-            mix-blend-mode: screen; /* 색상이 더 자연스럽게 섞이도록 함 */
-            animation: aurora-flow 20s infinite alternate;
-        }
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="스마일쿠키(smilecookie)는 사람이 즐거운 게임을 만드는 게임 개발 스튜디오입니다. 쿠키 오디세이, 스윗 머지, 프로젝트 스마일 등 세상을 따뜻하게 채울 즐거움을 선사합니다.">
+  <meta name="keywords" content="smilecookie, 스마일쿠키, 게임개발, 인디게임, 힐링게임, 파티게임, 모바일게임, 게임회사">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="smilecookie | 사람이 즐거운 게임을 만드는 게임 스튜디오">
+  <meta property="og:description" content="스마일쿠키는 사람들이 미소 짓고 행복할 수 있는 순수한 즐거움의 게임을 만듭니다.">
+  <meta property="og:image" content="assets/logo.png">
+  <meta property="og:url" content="https://smilecookie.com">
 
-        .aurora-1 {
-            background: radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.3), transparent 60%);
-            animation-duration: 15s;
-        }
-
-        .aurora-2 {
-            background: radial-gradient(circle at 80% 10%, rgba(168, 85, 247, 0.3), transparent 60%);
-            animation-duration: 20s;
-            animation-delay: -5s; /* 애니메이션 시작 시간 조절 */
-        }
-
-        .aurora-3 {
-            background: radial-gradient(circle at 50% 90%, rgba(236, 72, 153, 0.25), transparent 60%);
-            animation-duration: 25s;
-            animation-delay: -10s;
-        }
-
-        /* --- ✨ [추가] 오로라 애니메이션 --- */
-        @keyframes aurora-flow {
-            0% {
-                transform: scale(1.2) rotate(0deg) translateX(0vw) translateY(0vh);
-                opacity: 0.3;
-            }
-            50% {
-                transform: scale(1.8) rotate(5deg) translateX(10vw) translateY(-10vh);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(1.2) rotate(-5deg) translateX(-10vw) translateY(5vh);
-                opacity: 0.3;
-            }
-        }
-        /* --- 오로라 스타일 끝 --- */
-
-
-        .container {
-            text-align: center;
-            position: relative; /* ✨ [수정] 컨텐츠가 배경 위에 오도록 설정 */
-            z-index: 1;         /* ✨ [수정] 컨텐츠가 배경 위에 오도록 설정 */
-        }
-
-        /* 그라데이션 텍스트 스타일 */
-        .gradient-text {
-            background: linear-gradient(60deg, #3B82F6, #A855F7, #EC4899, #F59E0B, #bd6e00, #ff0000, #009632);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: transparent;
-            font-size: clamp(2.5rem, 12vw, 6rem); /* 반응형 폰트 크기 */
-            font-weight: 900;
-            min-height: 1.5em; /* 텍스트 변경 시 레이아웃 흔들림 방지 */
-            transition: opacity 0.7s ease-in-out; /* 부드러운 전환 효과 */
-            animation: gradient-animation 12s ease infinite;
-        }
-
-        /* 그라데이션 배경 애니메이션 */
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* 현재 언어 표시 스타일 */
-        .language-info {
-            font-size: 1.2rem;
-            color: #a0a0a0;
-            margin-top: 15px;
-            min-height: 1.2em; /* 높이 고정 */
-            transition: opacity 0.7s ease-in-out;
-        }
-    </style>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <div class="aurora aurora-1"></div>
-    <div class="aurora aurora-2"></div>
-    <div class="aurora aurora-3"></div>
+  <!-- Header Navigation -->
+  <header id="header">
+    <div class="nav-container">
+      <a href="#home" class="logo-wrapper" id="nav-logo-link">
+        <img src="assets/logo.png" alt="smilecookie Logo" class="logo-img" id="logo-img-id">
+        <span class="logo-text text-gradient" id="logo-text-id">smilecookie</span>
+      </a>
 
-    <div class="container">
-        <h1 id="greeting-text" class="gradient-text"></h1>
-        <p id="language-display" class="language-info"></p>
+      <ul class="nav-menu" id="nav-menu-id">
+        <li><a href="#home" class="nav-link active" id="nav-home" data-i18n="nav-home">Home</a></li>
+        <li><a href="#philosophy" class="nav-link" id="nav-philosophy" data-i18n="nav-philosophy">Philosophy</a></li>
+        <!-- <li><a href="#games" class="nav-link" id="nav-games">Games</a></li> -->
+        <!-- <li><a href="#culture" class="nav-link" id="nav-culture">Culture</a></li> -->
+        <li><a href="#contact" class="nav-link" id="nav-contact" data-i18n="nav-contact">Contact</a></li>
+      </ul>
 
-        <p style="color:rgb(120, 95, 50);font-weight: bold;">We are renewing the site</p>
-        <p style="color:rgb(120, 95, 50)">Contact : contact@smilecookie.com</p>
-        <p style="color:rgb(120, 95, 50)">©2026 SMILECOOKIE INC. All Rights Reserved.</p>
+      <button class="menu-toggle" id="menu-toggle-id" aria-label="메뉴 열기">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
+  </header>
 
-    <script>
-        const greetingElement = document.getElementById('greeting-text');
-        const languageElement = document.getElementById('language-display');
+  <!-- Hero Section -->
+  <section id="home" class="hero-section">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-gradient-overlay"></div>
+    <div class="container">
+      <div class="hero-content reveal">
+        <div class="hero-badge" id="hero-badge-id">
+          <span class="hero-badge-dot"></span><span data-i18n="hero-badge">We are making smiles!</span>
+        </div>
+        <h1 class="hero-title" id="hero-title-id" data-i18n="hero-title">
+          사람을 <span class="text-gradient">미소 짓게</span><br>만드는 게임
+        </h1>
+        <p class="hero-description" id="hero-desc-id" data-i18n="hero-desc">
+          스마일쿠키는 단순한 플레이를 넘어, 지친 일상에 달콤한 휴식과 따뜻한 웃음을 선물하는 게임을 만드는 크리에이티브 스튜디오입니다. 한 조각의 맛있고 포근한 쿠키처럼, 모두에게 기억에 남을 행복을
+          전합니다.
+        </p>
+        <div class="hero-actions" id="hero-actions-id">
+          <!-- <a href="#games" class="btn btn-primary" id="hero-btn-games">게임 둘러보기</a> -->
+          <a href="#contact" class="btn btn-primary" id="hero-btn-contact" data-i18n="hero-btn-contact">연락하기</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        // 인사말과 언어 정보를 담고 있는 배열
-        const greetings = [
-            { greeting: '안녕하세요!', language: '한국어' },
-            { greeting: 'Hello!', language: 'English' },
-            { greeting: 'こんにちは!', language: '日本語' },
-            { greeting: '¡Hola!', language: 'Español' },
-            { greeting: 'Bonjour!', language: 'Français' },
-            { greeting: 'Guten Tag!', language: 'Deutsch' },
-            { greeting: '你好!', language: '中文' },
-            { greeting: 'Здравствуйте!', language: 'Русский' },
-            { greeting: 'مرحبا!', language: 'العربية' },
-            { greeting: 'नमस्ते!', language: 'हिन्दी' }
-        ];
-        let currentGreetingIndex = 0;
+  <!-- Philosophy (About) Section -->
+  <section id="philosophy" class="section about-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-badge" id="philosophy-badge" data-i18n="philosophy-badge">Our Mission</span>
+        <h2 class="section-title" id="philosophy-title" data-i18n="philosophy-title">우리가 게임을 만드는 이유</h2>
+        <p class="section-desc" id="philosophy-desc" data-i18n="philosophy-desc">사람들이 미소 짓고 행복할 때 세상은 더 달콤해집니다. 우리는 그
+          순간을 위해 게임을 연구합니다.</p>
+      </div>
 
-        // 다음 언어로 텍스트를 업데이트하는 함수
-        function updateGreeting() {
-            // 현재 텍스트를 부드럽게 사라지게 함
-            greetingElement.style.opacity = 0;
-            languageElement.style.opacity = 0;
+      <div class="philosophy-grid">
+        <div class="philosophy-visual reveal">
+          <div class="cookie-ring-bg" id="cookie-ring"></div>
+          <div class="philosophy-center-cookie" id="center-cookie-id">
+            <!-- Hand-drawn style smile cookie svg icon -->
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="4" />
+              <!-- Cookie texture chocolate chips -->
+              <circle cx="35" cy="30" r="3.5" />
+              <circle cx="65" cy="30" r="3.5" />
+              <circle cx="30" cy="45" r="2.5" />
+              <circle cx="70" cy="45" r="2.5" />
+              <circle cx="48" cy="25" r="3" />
+              <!-- Cute smile -->
+              <path d="M 38,58 Q 50,68 62,58" fill="none" stroke="currentColor" stroke-width="4"
+                stroke-linecap="round" />
+            </svg>
+          </div>
+          <div class="philosophy-bubble pb-1" id="bubble-joy">Pure Joy</div>
+          <div class="philosophy-bubble pb-2" id="bubble-smile">Warm Smile</div>
+          <div class="philosophy-bubble pb-3" id="bubble-imagine">Imagination</div>
+          <div class="philosophy-bubble pb-4" id="bubble-connect">Connection</div>
+        </div>
 
-            // 0.7초 후 (사라지는 애니메이션이 끝난 후) 텍스트를 교체하고 나타나게 함
-            setTimeout(() => {
-                // 배열에서 현재 순서의 인사말 객체를 가져옴
-                const currentGreeting = greetings[currentGreetingIndex];
+        <div class="philosophy-content reveal">
+          <h3 id="philosophy-subtitle" data-i18n="philosophy-subtitle">달콤한 아이디어와 따뜻한 마음이 만나 만드는 기적</h3>
+          <div class="philosophy-list" id="philosophy-list-id">
+            <div class="philosophy-item" id="p-item-1">
+              <div class="philosophy-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
+                  <path d="M12 7v5l3 3" />
+                </svg>
+              </div>
+              <div class="philosophy-item-text">
+                <h4 class="text-gold" data-i18n="philosophy-i1-title">순수한 플레이의 즐거움</h4>
+                <p data-i18n="philosophy-i1-desc">스트레스와 경쟁 대신, 남녀노소 누구나 웃으며 편안하게 즐길 수 있는 힐링과 순수한 재미를 최우선으로 생각합니다.</p>
+              </div>
+            </div>
 
-                // 화면의 텍스트를 업데이트
-                greetingElement.textContent = currentGreeting.greeting;
-                languageElement.textContent = currentGreeting.language;
+            <div class="philosophy-item" id="p-item-2">
+              <div class="philosophy-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+              </div>
+              <div class="philosophy-item-text">
+                <h4 class="text-pink" data-i18n="philosophy-i2-title">따뜻한 소통과 연결</h4>
+                <p data-i18n="philosophy-i2-desc">게임을 통해 전 세계 사람들이 친밀하게 대화하고 서로의 감정을 나누며, 함께 웃을 수 있는 따스한 가상 공간을 구축합니다.
+                </p>
+              </div>
+            </div>
 
-                // 텍스트를 다시 보이게 함
-                greetingElement.style.opacity = 1;
-                languageElement.style.opacity = 1; // 이 부분 주석을 해제해야 언어도 같이 나타납니다.
-                
-                // 다음 순서를 위해 인덱스 업데이트 (배열 끝에 도달하면 처음으로 돌아감)
-                currentGreetingIndex = (currentGreetingIndex + 1) % greetings.length;
-            }, 700);
-        }
+            <div class="philosophy-item" id="p-item-3">
+              <div class="philosophy-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                  <line x1="12" y1="22.08" x2="12" y2="12" />
+                </svg>
+              </div>
+              <div class="philosophy-item-text">
+                <h4 class="text-gold" data-i18n="philosophy-i3-title">경계 없는 무한 상상력</h4>
+                <p data-i18n="philosophy-i3-desc">작고 둥근 쿠키 조각에서 무한한 우주와 판타지를 설계하듯, 사소하고 당연한 아이디어를 세상에서 가장 참신한 플레이로
+                  승화시킵니다.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        // 페이지 로드 시 즉시 첫 인사말을 표시
-        updateGreeting();
+  <!-- Games Section (Commented out)
+  <section id="games" class="section games-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-badge" id="games-badge">Our Games</span>
+        <h2 class="section-title" id="games-title">스마일쿠키의 대표 타이틀</h2>
+        <p class="section-desc" id="games-desc">일상에 지친 당신을 미소 짓게 할 즐거운 게임 라인업을 소개합니다.</p>
+      </div>
 
-        // 5초(5000ms)마다 updateGreeting 함수를 반복 실행
-        setInterval(updateGreeting, 5000);
-    </script>
+      <div class="games-grid">
+        [Game 1]
+        <div class="game-card glass-panel reveal reveal-delay-1" id="game-card-1">
+          <div class="game-image-container">
+            <img src="assets/game_adventure.png" alt="Cookie Odyssey 게임 아트" class="game-img">
+            <span class="game-genre">3D Platformer</span>
+          </div>
+          <div class="game-details">
+            <h3 class="game-title">쿠키 오디세이</h3>
+            <p class="game-desc">잃어버린 전설의 달콤함을 찾아 떠나는 아기 쿠키의 판타지 어드벤처. 푹신한 마시멜로 구름과 초콜릿 골짜기를 넘나드는 힐링 플랫포머입니다.</p>
+            <button class="game-play-btn" aria-label="쿠키 오디세이 상세정보 보기">
+              자세히 보기
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        [Game 2]
+        <div class="game-card glass-panel reveal reveal-delay-2" id="game-card-2">
+          <div class="game-image-container">
+            <img src="assets/game_puzzle.png" alt="Sweet Merge Puzzle 게임 아트" class="game-img">
+            <span class="game-genre">Cozy Puzzle</span>
+          </div>
+          <div class="game-details">
+            <h3 class="game-title">스윗 머지 퍼즐</h3>
+            <p class="game-desc">알록달록 달콤한 마카롱과 도넛을 합쳐 화려한 나만의 제과점을 꾸미는 방치형 힐링 머지 퍼즐. 머리를 식히며 평화로운 사운드로 스트레스를 풀어보세요.</p>
+            <button class="game-play-btn" aria-label="스윗 머지 퍼즐 상세정보 보기">
+              자세히 보기
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        [Game 3]
+        <div class="game-card glass-panel reveal reveal-delay-3" id="game-card-3">
+          <div class="game-image-container">
+            <img src="assets/game_party.png" alt="Project Smile 게임 아트" class="game-img">
+            <span class="game-genre">Party Game</span>
+          </div>
+          <div class="game-details">
+            <h3 class="game-title">프로젝트 스마일</h3>
+            <p class="game-desc">귀여운 동물 탈을 쓴 캐릭터들이 예측 불허의 코믹한 경쟁을 벌이는 멀티플레이어 파티 게임. 친구들과 모여 실시간 미니게임으로 우정을 돈독히 쌓아보세요.
+            </p>
+            <button class="game-play-btn" aria-label="프로젝트 스마일 상세정보 보기">
+              자세히 보기
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  -->
+
+  <!-- Culture Section (Commented out)
+  <section id="culture" class="section culture-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-badge" id="culture-badge">Studio Life</span>
+        <h2 class="section-title" id="culture-title">달콤하고 유쾌한 동료들</h2>
+        <p class="section-desc" id="culture-desc">사람을 즐겁게 하려면 만드는 사람도 행복해야 합니다. 스마일쿠키의 독보적인 워크 컬쳐를 확인하세요.</p>
+      </div>
+
+      <div class="culture-content-wrapper">
+        <div class="culture-info reveal">
+          <h3 id="culture-subtitle">우리는 일하는 방식도<br><span class="text-gradient">플레이</span>하듯 즐겁게 합니다</h3>
+          <p id="culture-paragraph">
+            자유와 신뢰 속에서 구성원 모두가 본인의 역량을 편안하게 뽐낼 수 있는 최고의 환경을 만듭니다. 매주 새롭고 즐거운 아이디어를 자유롭게 시도하고 공유하는 크리에이티브 허브, 바로 스마일쿠키의
+            문화입니다.
+          </p>
+
+          <div class="culture-stats" id="culture-stats-id">
+            <div class="stat-item" id="stat-1">
+              <div class="stat-num text-gold">98%</div>
+              <div class="stat-label">사내 구성원 행복도</div>
+            </div>
+            <div class="stat-item" id="stat-2">
+              <div class="stat-num text-pink">2,000만+</div>
+              <div class="stat-label">글로벌 다운로드</div>
+            </div>
+            <div class="stat-item" id="stat-3">
+              <div class="stat-num text-pink">3.8만</div>
+              <div class="stat-label">누적 먹은 쿠키 개수</div>
+            </div>
+            <div class="stat-item" id="stat-4">
+              <div class="stat-num text-gold">100%</div>
+              <div class="stat-label">수평어 사용 소통</div>
+            </div>
+          </div>
+
+          [Join Button - Hidden]
+        </div>
+
+        <div class="culture-visual">
+          <div class="culture-card glass-panel reveal reveal-delay-1" id="c-card-1">
+            <div class="culture-card-icon yellow">☕</div>
+            <h4>무제한 커피 & 쿠키바</h4>
+            <p>다양한 제과와 스페셜티 원두 커피를 자유롭게 즐기며 무한한 아이디어를 채워나갑니다.</p>
+          </div>
+
+          <div class="culture-card glass-panel reveal reveal-delay-2" id="c-card-2">
+            <div class="culture-card-icon pink">⏰</div>
+            <h4>자율 시차 출퇴근제</h4>
+            <p>개인의 주기에 맞춘 유연한 근무 환경을 바탕으로 최고의 집중력을 끌어냅니다.</p>
+          </div>
+
+          <div class="culture-card glass-panel reveal reveal-delay-3" id="c-card-3">
+            <div class="culture-card-icon pink">🎮</div>
+            <h4>주간 게임 데이</h4>
+            <p>매주 금요일은 다 같이 신작 또는 인기 명작들을 플레이하고 편하게 분석하며 노는 시간입니다.</p>
+          </div>
+
+          <div class="culture-card glass-panel reveal reveal-delay-4" id="c-card-4">
+            <div class="culture-card-icon yellow">🌴</div>
+            <h4>리프레시 웰니스 지원</h4>
+            <p>건강과 활력을 위해 정기적인 사내 이벤트와 웰니스 활동 지원금을 제공합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  -->
+
+  <!-- Contact Section -->
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-badge" id="contact-badge" data-i18n="contact-badge">Get In Touch</span>
+        <h2 class="section-title" id="contact-title" data-i18n="contact-title">달콤한 이야기를 들려주세요</h2>
+        <p class="section-desc" id="contact-desc" data-i18n="contact-desc">제휴 문의, 채용 관련, 혹은 스마일쿠키에 나누고픈 모든 이야기를 환영합니다.
+        </p>
+      </div>
+
+      <div class="contact-layout">
+        <div class="contact-info reveal">
+          <h3 id="contact-info-subtitle" data-i18n="contact-subtitle">더 큰 미소를 위해<br>함께 소통해요</h3>
+          <p id="contact-info-paragraph" data-i18n="contact-info-desc">
+            게임 개발 관련 퍼블리싱 문의, 입사 지원, 프레스 인터뷰 등 어떠한 메세지도 환영합니다. 쿠키 굽는 냄새처럼 포근하고 신속하게 답변해 드리겠습니다.
+          </p>
+
+          <div class="contact-details" id="contact-details-id">
+            <div class="contact-detail-item" id="cd-item-1">
+              <div class="contact-icon">📍</div>
+              <div class="contact-detail-text">
+                <span>Location</span>
+                <p>-</p>
+              </div>
+            </div>
+
+            <div class="contact-detail-item" id="cd-item-2">
+              <div class="contact-icon">✉️</div>
+              <div class="contact-detail-text">
+                <span>Email</span>
+                <p>contact@smilecookie.com</p>
+              </div>
+            </div>
+
+            <div class="contact-detail-item" id="cd-item-3">
+              <div class="contact-icon">📞</div>
+              <div class="contact-detail-text">
+                <span>Phone</span>
+                <p>-</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-panel glass-panel reveal reveal-delay-2" id="contact-form-panel-id">
+          <form class="contact-form" id="smile-contact-form">
+            <div class="form-group" id="fg-name">
+              <label for="contact-name" class="form-label" data-i18n="contact-label-name">이름 / 회사명</label>
+              <input type="text" id="contact-name" class="form-control" placeholder="성함 혹은 단체명을 적어주세요" required>
+            </div>
+
+            <div class="form-group" id="fg-email">
+              <label for="contact-email" class="form-label" data-i18n="contact-label-email">이메일 주소</label>
+              <input type="email" id="contact-email" class="form-control" placeholder="답변을 받으실 이메일을 적어주세요" required>
+            </div>
+
+            <div class="form-group" id="fg-msg">
+              <label for="contact-message" class="form-label" data-i18n="contact-label-msg">문의 내용</label>
+              <textarea id="contact-message" class="form-control" placeholder="스마일쿠키에게 전하실 소중한 메세지를 남겨주세요"
+                required></textarea>
+            </div>
+
+            <!--<button type="submit" class="btn btn-primary" id="btn-submit-form">메세지 보내기</button>-->
+
+            <div class="form-message" id="form-feedback-message"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-layout">
+        <div class="footer-brand" id="footer-brand-id">
+          <img src="assets/logo.png" alt="smilecookie Logo" class="footer-logo-img">
+          <span class="footer-logo-text text-gradient">smilecookie</span>
+        </div>
+
+        <div class="footer-copy" id="footer-copy-id" data-i18n="footer-copy">
+          &copy; 2026 smilecookie Inc. All rights reserved.
+        </div>
+
+        <div class="footer-lang-selector" id="footer-lang-selector-id">
+          <label for="lang-select" class="lang-label" data-i18n="lang-label">🌐 Language:</label>
+          <select id="lang-select" class="lang-dropdown">
+            <option value="ko" selected>한국어</option>
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="zh">中文</option>
+            <option value="fr">Français</option>
+            <option value="es">Español</option>
+            <option value="pt">Português</option>
+          </select>
+        </div>
+
+        <ul class="social-links" id="footer-social-links">
+          <li><a href="#" class="social-link" aria-label="X (Twitter)">𝕏</a></li>
+          <li><a href="#" class="social-link" aria-label="YouTube">▶</a></li>
+          <li><a href="#" class="social-link" aria-label="Instagram">📸</a></li>
+          <li><a href="#" class="social-link" aria-label="Discord">👾</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script src="main.js"></script>
 </body>
+
 </html>

@@ -231,6 +231,72 @@ document.addEventListener('DOMContentLoaded', () => {
       'ph-name': 'Por favor, insira seu nome ou organização',
       'ph-email': 'Por favor, insira seu e-mail para receber respostas',
       'ph-msg': 'Por favor, deixe sua valiosa mensagem para o smilecookie'
+    },
+    de: {
+      'nav-home': 'Home',
+      'nav-philosophy': 'Philosophie',
+      'nav-contact': 'Kontakt',
+      'hero-badge': 'Wir bringen Menschen zum Lächeln!',
+      'hero-title': 'Spiele, die Menschen <span class="text-gradient">zum Lächeln</span> bringen',
+      'hero-desc': 'smilecookie ist ein kreatives Studio, das über das einfache Spielen hinausgeht, um dem anstrengenden Alltag süße Erholung und herzliches Lachen zu schenken. Wie ein köstlicher, gemütlicher Bissen eines Kekses bringen wir jedem unvergessliches Glück.',
+      'hero-btn-contact': 'Kontakt',
+      'philosophy-badge': 'Unsere Mission',
+      'philosophy-title': 'Warum wir Spiele machen',
+      'philosophy-desc': 'Die Welt wird süßer, wenn Menschen lächeln und glücklich sind. Genau für diesen Moment erforschen wir Spiele.',
+      'philosophy-subtitle': 'Wunder, die aus süßen Ideen und warmen Herzen entstehen',
+      'philosophy-i1-title': 'Reine Freude am Spielen',
+      'philosophy-i1-desc': 'Anstelle von Stress und Wettbewerb legen wir Wert auf Entspannung und puren Spaß, den jeder mit einem Lächeln genießen kann.',
+      'philosophy-i2-title': 'Warme Verbindung',
+      'philosophy-i2-desc': 'Durch Spiele bauen wir herzliche virtuelle Räume auf, in denen sich Menschen weltweit austauschen, unterhalten und Gefühle teilen können.',
+      'philosophy-i3-title': 'Grenzenlose Fantasie',
+      'philosophy-i3-desc': 'Genauso wie wir unendliche Universen aus einem winzigen runden Keksstück entwerfen, verwandeln wir einfache Ideen in das innovativste Gameplay.',
+      'contact-badge': 'Kontakt',
+      'contact-title': 'Erzählen Sie uns eine süße Geschichte',
+      'contact-desc': 'Wir freuen uns über Partnerschaften, Karrieren oder jede Geschichte, die Sie mit smilecookie teilen möchten.',
+      'contact-subtitle': 'Lassen Sie uns für ein<br>noch größeres Lächeln verbinden',
+      'contact-info-desc': 'Anfragen zum Publishing, Bewerbungen, Presseinterviews und andere Nachrichten sind immer willkommen. Wir werden so warm und schnell antworten wie der Geruch von frisch gebackenen Keksen.',
+      'contact-label-name': 'Name / Unternehmen',
+      'contact-label-email': 'E-Mail-Adresse',
+      'contact-label-msg': 'Nachricht',
+      'footer-copy': '&copy; 2026 smilecookie Inc. Alle Rechte vorbehalten.',
+      'lang-label': '🌐 Sprache:',
+      // Placeholders
+      'ph-name': 'Bitte geben Sie Ihren Namen oder Ihr Unternehmen ein',
+      'ph-email': 'Bitte geben Sie Ihre E-Mail-Adresse für Antworten ein',
+      'ph-msg': 'Bitte hinterlassen Sie Ihre wertvolle Nachricht für smilecookie'
+    },
+    it: {
+      'nav-home': 'Home',
+      'nav-philosophy': 'Filosofia',
+      'nav-contact': 'Contatti',
+      'hero-badge': 'Creiamo sorrisi!',
+      'hero-title': 'Giochi che Fanno<br><span class="text-gradient">Sorridere</span> le Persone',
+      'hero-desc': 'smilecookie è uno studio creativo che va oltre il semplice gioco per regalare un dolce riposo e calde risate a vite quotidiane esauste. Como un delizioso e confortevole morso di biscotto, offriamo una felicità indimenticabile a tutti.',
+      'hero-btn-contact': 'Contattaci',
+      'philosophy-badge': 'La nostra missione',
+      'philosophy-title': 'Perché creiamo giochi',
+      'philosophy-desc': 'Il mondo diventa più dolce quando le persone sorridono e sono felici. Studiamo i giochi proprio per quel momento.',
+      'philosophy-subtitle': 'Miracoli nati da idee dolci e cuori caldi',
+      'philosophy-i1-title': 'Pura gioia di giocare',
+      'philosophy-i1-desc': 'Invece di stress e competizione, diamo priorità al relax e al puro divertimento che chiunque può godersi comodamente con un sorriso.',
+      'philosophy-i2-title': 'Connessione calorosa',
+      'philosophy-i2-desc': 'Attraverso i giochi, costruiamo spazi virtuali accoglienti in cui le persone di tutto il mondo possono comunicare, conversare e condividere sentimenti.',
+      'philosophy-i3-title': 'Immaginazione senza limiti',
+      'philosophy-i3-desc': 'Proprio come progettare universi infiniti da un piccolo pezzo di biscotto rotondo, trasformiamo idee semplici nel gameplay più innovativo.',
+      'contact-badge': 'Contatti',
+      'contact-title': 'Raccontaci una dolce storia',
+      'contact-desc': 'Diamo il benvenuto a partnership, carriere o qualsiasi storia tu voglia condividere con smilecookie.',
+      'contact-subtitle': 'Connettiamoci per<br>sorrisi ancora più grandi',
+      'contact-info-desc': 'Richieste di pubblicazione, candidature di lavoro, interviste con la stampa e qualsiasi altro messaggio sono sempre i benvenuti. Risponderemo calorosamente e rapidamente come il profumo dei biscotti freschi.',
+      'contact-label-name': 'Nome / Azienda',
+      'contact-label-email': 'Indirizzo e-mail',
+      'contact-label-msg': 'Messaggio',
+      'footer-copy': '&copy; 2026 smilecookie Inc. Tutti i diritti riservati.',
+      'lang-label': '🌐 Lingua:',
+      // Placeholders
+      'ph-name': 'Inserisci il tuo nome o la tua azienda',
+      'ph-email': 'Inserisci il tuo indirizzo e-mail per ricevere risposte',
+      'ph-msg': 'Lascia il tuo prezioso messaggio per smilecookie'
     }
   };
 
@@ -287,8 +353,15 @@ document.addEventListener('DOMContentLoaded', () => {
       setLanguage(e.target.value);
     });
 
-    // Restore saved language on load
-    const savedLang = localStorage.getItem('smilecookie-lang') || 'ko';
+    // Restore saved language or detect from browser on first load
+    let savedLang = localStorage.getItem('smilecookie-lang');
+    if (!savedLang) {
+      const supportedLangs = ['ko', 'en', 'ja', 'zh', 'fr', 'es', 'pt', 'de', 'it'];
+      const userLangs = (navigator.languages || [navigator.language || 'en'])
+        .map(lang => lang.split('-')[0].toLowerCase());
+      const detectedLang = userLangs.find(lang => supportedLangs.includes(lang));
+      savedLang = detectedLang || 'en';
+    }
     langSelect.value = savedLang;
     setLanguage(savedLang, false); // No fade on load
   }
@@ -543,6 +616,16 @@ document.addEventListener('DOMContentLoaded', () => {
         successPrefix = 'Muito obrigado';
         successSuffix = 'Sua mensagem foi enviada com sucesso. Responderemos em breve.';
         loadingText = 'Enviando sua mensagem...';
+      } else if (currentLang === 'de') {
+        errorText = 'Bitte füllen Sie alle Felder aus.';
+        successPrefix = 'Vielen Dank';
+        successSuffix = 'Ihre Nachricht wurde erfolgreich gesendet. Wir werden uns in Kürze bei Ihnen melden.';
+        loadingText = 'Ihre Nachricht wird gebacken...';
+      } else if (currentLang === 'it') {
+        errorText = 'Per favore, compila tutti i campi.';
+        successPrefix = 'Grazie mille';
+        successSuffix = 'Il tuo messaggio è stato inviato con successo. Ti risponderemo al più presto.';
+        loadingText = 'Infornando il tuo messaggio...';
       }
 
       if (!name || !email || !message) {

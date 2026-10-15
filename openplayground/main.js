@@ -10,7 +10,9 @@
     { title: "Super Jump", file: "games/superjump.html", emoji: "🦘", genre: "액션", cat: ["action", "arcade"], desc: "리듬감 있게 점프하며 코인을 모으는 스피디한 액션." },
     { title: "Super Tennis", file: "games/supertenis.html", emoji: "🎾", genre: "스포츠", cat: ["sports", "action"], desc: "브라우저에서 즐기는 가벼운 테니스 대전." },
     { title: "Vampire Survival", file: "games/vampire.html", emoji: "🧛", genre: "서바이벌", cat: ["survival", "action"], desc: "몰려오는 적을 피해 최대한 오래 버티는 생존 슈터." },
-    { title: "로그라이크", file: "games/roguelike.html", emoji: "🗡️", genre: "로그라이크", cat: ["roguelike", "action"], desc: "매번 바뀌는 던전을 탐험하는 메트로바니아 플랫포머." }
+    { title: "로그라이크", file: "games/roguelike.html", emoji: "🗡️", genre: "로그라이크", cat: ["roguelike", "action"], desc: "매번 바뀌는 던전을 탐험하는 메트로바니아 플랫포머." },
+    { title: "GALAGA", file: "games/galaga/index.html", emoji: "🚀", genre: "아케이드", cat: ["arcade", "action"], desc: "끝없이 밀려오는 우주 적 편대를 돌파하는 클래식 슈팅 게임." },
+    { title: "HELLBREAKER", file: "games/hellbreaker/index.html", emoji: "🔫", genre: "액션", cat: ["action"], desc: "어둡고 거친 분위기의 레트로 FPS 액션 게임." }
   ];
 
   /* --- Render game cards --- */

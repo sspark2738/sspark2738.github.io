@@ -3,290 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Deletion & Terms of Service - Smilecookie Inc.</title>
+    <title>Account & Data Deletion Request - Smilecookie Inc.</title>
     <style>
         :root {
-            --primary-color: #2b5283;
-            --primary-hover: #1e3a5f;
-            --danger-color: #d9534f;
-            --danger-hover: #c9302c;
-            --text-color: #333333;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --border-color: #e9ecef;
-            --accent-bg: #edf2f7;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --accent-color: #4dabf7;
+            --border-color: #333333;
+            --warning-bg: #2c211d;
+            --warning-border: #e67700;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
             margin: 0;
-            padding: 40px 20px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 40px;
+            max-width: 720px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 32px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-bar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-
-        .nav-link {
-            display: inline-block;
-            padding: 8px 16px;
-            background-color: var(--accent-bg);
-            color: var(--primary-color);
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: background-color 0.2s ease;
-        }
-
-        .nav-link:hover {
-            background-color: #e2e8f0;
-        }
-
-        .nav-link.active {
-            background-color: var(--primary-color);
-            color: #ffffff;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         h1 {
-            color: var(--primary-color);
-            font-size: 2rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 12px;
+            font-size: 1.6rem;
             margin-top: 0;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: #ffffff;
         }
 
         h2 {
-            color: var(--primary-color);
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             margin-top: 28px;
             margin-bottom: 12px;
+            color: var(--accent-color);
         }
 
-        .app-info {
-            background-color: #f1f5f9;
-            border-left: 4px solid var(--primary-color);
-            padding: 16px;
-            border-radius: 0 8px 8px 0;
-            margin: 20px 0;
-        }
-
-        .app-info p {
-            margin: 4px 0;
-        }
-
-        /* Account Deletion Highlight Card */
-        .deletion-card {
-            background-color: #fff5f5;
-            border: 1px solid #feb2b2;
-            border-left: 5px solid var(--danger-color);
-            padding: 24px;
-            border-radius: 8px;
-            margin: 24px 0;
-        }
-
-        .deletion-card h2 {
-            color: var(--danger-color);
-            margin-top: 0;
-            font-size: 1.4rem;
-        }
-
-        .deletion-steps {
-            background-color: #ffffff;
-            border: 1px solid var(--border-color);
-            padding: 16px 20px;
-            border-radius: 6px;
-            margin: 16px 0;
-        }
-
-        .btn-delete {
-            display: inline-block;
-            background-color: var(--danger-color);
-            color: #ffffff;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-            margin-top: 12px;
-            text-align: center;
-        }
-
-        .btn-delete:hover {
-            background-color: var(--danger-hover);
-            transform: translateY(-1px);
+        p, li {
+            color: var(--text-primary);
+            font-size: 0.95rem;
         }
 
         ul {
             padding-left: 20px;
-            margin: 8px 0;
         }
 
         li {
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
-        .contact-box {
-            background-color: #fafafa;
+        .email-box {
+            background-color: #252525;
             border: 1px solid var(--border-color);
             padding: 16px 20px;
             border-radius: 8px;
-            margin-top: 12px;
+            margin: 16px 0;
         }
 
-        .footer-date {
-            margin-top: 40px;
+        .email-link {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+
+        .email-link:hover {
+            text-decoration: underline;
+        }
+
+        .warning-box {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            padding: 14px 18px;
+            border-radius: 4px;
+            margin-top: 20px;
             font-size: 0.9rem;
-            color: #6c757d;
-            text-align: right;
-            border-top: 1px solid var(--border-color);
+        }
+
+        footer {
+            margin-top: 40px;
             padding-top: 16px;
-        }
-
-        a {
-            color: var(--primary-color);
-        }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 16px 8px;
-            }
-            .container {
-                padding: 20px;
-            }
-            .btn-delete {
-                width: 100%;
-                box-sizing: border-box;
-            }
+            border-top: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Navigation Links for Policy Pages -->
-    <div class="nav-bar">
-        <a href="privacy_policy.html" class="nav-link">Privacy Policy</a>
-        <a href="terms_of_service.html" class="nav-link">Terms of Service</a>
-        <a href="account_deletion_terms.html" class="nav-link active">Account Deletion & Terms</a>
-    </div>
+    <h1>Account and Data Deletion Request</h1>
+    <p>
+        This page outlines the procedure for requesting the deletion of your account and associated personal data for games and applications (collectively, the "Services") provided by <strong>Smilecookie Inc.</strong>
+    </p>
 
-    <h1>Terms of Service & Account Deletion</h1>
-
-    <div class="app-info">
-        <p><strong>Company Name:</strong> Smilecookie Inc. (SMILECOOKIE Games)</p>
-        <p><strong>Official Website:</strong> <a href="https://smilecookie.com" target="_blank">https://smilecookie.com</a></p>
-    </div>
-
-    <!-- Highlighted Account & Data Deletion Section -->
-    <div class="deletion-card" id="account-deletion">
-        <h2>Account & Data Deletion Request</h2>
-        <p>If you wish to delete your account or permanently delete your game progress and personal data associated with <strong>Merge and Archer</strong> or any other SMILECOOKIE Inc. services, you can request account deletion at any time.</p>
-        
-        <p><strong>What happens when your account is deleted?</strong></p>
-        <ul>
-            <li>Your account profile, login credentials, and user data will be permanently removed.</li>
-            <li>All associated game data, saved progress, high scores, and Virtual Items/Purchases will be irreversibly erased and cannot be recovered.</li>
-            <li>Active subscriptions or unused in-game currency will be forfeited.</li>
-        </ul>
-
-        <div class="deletion-steps">
-            <strong>How to submit an Account Deletion Request:</strong>
-            <ol style="padding-left: 20px; margin: 8px 0 0 0;">
-                <li>Click the <strong>Request Account Deletion</strong> button below to open an email prompt.</li>
-                <li>Include your <strong>User ID / In-game Nickname</strong> or registered email address.</li>
-                <li>Send the email to <a href="mailto:support@smilecookie.com">support@smilecookie.com</a>.</li>
-            </ol>
+    <h2>1. How to Request Account Deletion</h2>
+    <p>
+        If you are unable to delete your account directly through the in-app settings menu, or if you prefer to submit a deletion request via the web, please contact our support team at the email address below. Your request will be processed promptly upon identity verification.
+    </p>
+    
+    <div class="email-box">
+        <div><strong>Support Email:</strong> <a href="mailto:support@smilecookie.com?subject=[Account Deletion Request] Game Name & User ID" class="email-link">support@smilecookie.com</a></div>
+        <div style="margin-top: 8px; font-size: 0.9rem; color: #b0b0b0;">
+            * To ensure smooth processing, please include the <strong>[Name of the Game]</strong> and your <strong>[User ID or Linked Email Address]</strong> in the body of your email.
         </div>
-
-        <a href="mailto:support@smilecookie.com?subject=Account%20Deletion%20Request%20-%20Smilecookie%20Games&body=Hello%20Support%20Team%2C%0A%0AI%20would%20like%20to%20request%20the%20permanent%20deletion%20of%20my%20account%20and%20associated%20data.%0A%0AApp%20Name%3A%20Merge%20and%20Archer%0AUser%20ID%20%2F%20Nickname%3A%20%5BInsert%20User%20ID%20or%20Nickname%5D%0ARegistered%20Email%3A%20%5BInsert%20Email%5D%0A%0AThank%20you." class="btn-delete">Request Account Deletion</a>
     </div>
 
-    <p>These terms of use (the "Terms") form a legal agreement between you and <strong>Smilecookie Inc.</strong> ("SMILECOOKIE Games", "we", "our" or "us").</p>
-
-    <p>These Terms set out how you may use our website <a href="https://smilecookie.com" target="_blank">https://smilecookie.com</a>, and any games, in-game purchases, forums, and services we offer (collectively referred to in these Terms as our "Services"). Please read these Terms carefully to make sure you understand them.</p>
-
-    <h2>1. Who Are We?</h2>
-    <p>We are SMILECOOKIE Games Limited (Smilecookie Inc.). We are a company registered in the United Kingdom whose registered number is 10276324 and whose address is 366 Buheung-ro, Bupyeong-gu, Incheon, Republic of Korea. Our VAT number is 7648701410. Our contact details are set out in Section 15 below.</p>
-
-    <h2>2. Legal Agreement</h2>
-    <p>These Terms form a legal agreement between you and us. They explain what terms you must comply with whenever you use our Services. By agreeing to these Terms, or using our Services, you agree to accept and be legally bound by these Terms. If you do not agree with the Terms, you should not access or use our Services.</p>
-
-    <h2>3. Privacy Policy</h2>
-    <p>Our Privacy Policy explains how we use your personal information, including who we may share it with, how long we keep it, and what rights you have. Please read our <a href="privacy_policy.html">Privacy Policy</a> to understand our practices.</p>
-
-    <h2>4. Rules of Conduct</h2>
-    <p>As a condition of using our Services, you agree to comply at all times with the following rules ("Rules"). You agree that you will not do any act, or share, distribute, or transmit any data that:</p>
+    <h2>2. Data Deleted Upon Request</h2>
+    <p>Once your account deletion request is completed, the following data will be permanently erased in an unrecoverable manner:</p>
     <ul>
-        <li>Is sexually explicit, vulgar, or obscene;</li>
-        <li>Amounts to a form of cheating, hacking, exploiting, or automating gameplay (bots/mods);</li>
-        <li>Amounts to a personal attack, bullying, or harassment of others;</li>
-        <li>Encourages or carries out illegal activities;</li>
-        <li>Impersonates anyone or misrepresents your identity;</li>
-        <li>Contains viruses, malware, or destructive code;</li>
-        <li>Involves unauthorized commercial activity, spam, advertising, trolling, or griefing.</li>
+        <li>Account identification details (linked platform IDs, email address, nickname, etc.)</li>
+        <li>Gameplay progression data (stage records, in-game currency, items, character data, etc.)</li>
+        <li>Any other user preferences and logs generated during the use of the Services</li>
     </ul>
 
-    <h2>5. Service Updates</h2>
-    <p>From time to time, we may deploy patches, updates, upgrades, or additional content to the Services to resolve software bugs, address security concerns, or enhance user experience. These updates may cause temporary service interruptions.</p>
+    <h2>3. Data Retention Policy</h2>
+    <p>
+        In principle, all personal data is destroyed without delay upon completion of your deletion request. However, where retention is required by applicable laws and regulations (such as e-commerce and consumer protection laws), limited transaction records may be securely retained for the statutory period before permanent deletion:
+    </p>
+    <ul>
+        <li>Records of contracts or subscription withdrawals (in-app purchases): <strong>5 years</strong></li>
+        <li>Records of consumer complaints or dispute resolution: <strong>3 years</strong></li>
+    </ul>
 
-    <h2>6. Virtual Items</h2>
-    <p>Our Services may enable you to acquire virtual items (such as virtual currency, points, or items). You agree that you do not own these Virtual Items and that they hold no real-world monetary value. You may not re-sell or trade any Virtual Items outside of the app.</p>
-
-    <h2>7. Intellectual Property</h2>
-    <p>We own or license all content, software code, graphics, images, trademarks, logos, videos, and text in our games and Services. You may not reverse engineer, decompile, disassemble, or modify the Services in any way.</p>
-
-    <h2>8. User Content</h2>
-    <p>If the Services allow you to share messages, images, or videos ("User Content"), you grant us a royalty-free, worldwide license to use, reproduce, and share your User Content in connection with operating the Services.</p>
-
-    <h2>9. License to Use Services</h2>
-    <p>We grant you a non-exclusive, non-sublicensable, personal, non-transferable, revocable, limited license to access and use the Services for your own personal, non-commercial entertainment purposes.</p>
-
-    <h2>10. Limitation of Liability</h2>
-    <p>We strive to keep the Services secure and uninterrupted, but we do not guarantee constant availability. We will not be liable for any temporary unavailability, loss of data, or damage resulting from events beyond our reasonable control.</p>
-
-    <h2>11. App Store Terms</h2>
-    <p>If you download our games via platforms such as the Apple App Store or Google Play Store, the relevant store's terms and billing policies also apply to your transactions and usage.</p>
-
-    <h2>12. Account Management & Closure</h2>
-    <p>You are responsible for maintaining the confidentiality of your account credentials. You may close your account at any time by contacting customer support. We reserve the right to suspend or close accounts that are inactive for more than 180 days or violate these Terms.</p>
-
-    <h2>13. Age Requirements</h2>
-    <p>The Services are not intended for young children without parental supervision. Users under the age of 16 must obtain parental or legal guardian consent to use our Services.</p>
-
-    <h2>14. Changes to These Terms</h2>
-    <p>We may revise these Terms from time to time due to legal, security, or operational updates. Continued use of the Services after changes take effect constitutes acceptance of the new Terms.</p>
-
-    <h2>15. How to Contact Us</h2>
-    <p>If you have any questions or concerns regarding these Terms or wish to request account deletion, please contact us at:</p>
-    
-    <div class="contact-box">
-        <p style="margin:0 0 6px 0;"><strong>Company:</strong> Smilecookie Inc.</p>
-        <p style="margin:0 0 6px 0;"><strong>E-mail:</strong> <a href="mailto:support@smilecookie.com">support@smilecookie.com</a></p>
-        <p style="margin:0 0 6px 0;"><strong>Official Website:</strong> <a href="https://smilecookie.com" target="_blank">smilecookie.com</a></p>
-        <p style="margin:0 0 6px 0;"><strong>Fax:</strong> 0504-189-2803</p>
-        <p style="margin:0;"><strong>Address:</strong> 366 Buheung-ro, Bupyeong-gu, Incheon, Republic of Korea</p>
+    <div class="warning-box">
+        <strong>Important Notice:</strong> Once your account is deleted, all purchased and free in-game currencies, items, and gameplay progress will be permanently lost and cannot be restored under any circumstances. Requests are processed within 7 business days of receipt.
     </div>
 
-    <div class="footer-date">
-        Latest Update: October 15, 2026
-    </div>
+    <footer>
+        &copy; 2026 Smilecookie Inc. All rights reserved.
+    </footer>
 </div>
 
 </body>
